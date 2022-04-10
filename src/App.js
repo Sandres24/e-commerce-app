@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { Loader, MainLayout, ProtectedRoutes } from './components';
+import { useEffect } from 'react';
+import { getUserFromLocalStorage } from './services';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCartThunk, setUser } from './redux/actions';
+import { ProductPage, ProductsPage, PurchasesPage } from './views';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const dispatch = useDispatch();
+   const isLoading = useSelector((state) => state.app.isLoading);
+
+   useEffect(() => {
+      const loggedUser = getUserFromLocalStorage();
+      if (loggedUser) {
+         dispatch(setUser(loggedUser.user));
+         dispatch(setCartThunk());
+      }
+   }, [dispatch]);
+
+   return (
+      <>
+         <Routes>
+            <Route element={<MainLayout />}>
+               <Route path='/' element={<ProductsPage />} />
+               <Route path='/products/:id' element={<ProductPage />} />
+
+               <Route element={<ProtectedRoutes />}>
+                  <Route path='/purchases' element={<PurchasesPage />} />
+               </Route>
+            </Route>
+         </Routes>
+         {isLoading && <Loader />}
+      </>
+   );
 }
 
 export default App;
