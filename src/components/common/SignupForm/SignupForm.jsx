@@ -1,6 +1,6 @@
 import React from 'react';
 import './SignupForm.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
 const SignupForm = ({ handleSwitchForm }) => {
    return (
