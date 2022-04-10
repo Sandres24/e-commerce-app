@@ -7,12 +7,12 @@ import './PurchasesPage.css';
 
 const PurchasesPage = () => {
    const dispatch = useDispatch();
-   const userCart = useSelector((state) => state.cart);
+   /* const userCart = useSelector((state) => state.cart); */
    const purchasesHistory = useSelector((state) => state.purchases);
 
    useEffect(() => {
       dispatch(setPurchasesHistoryThunk());
-   }, [dispatch, userCart]);
+   }, [dispatch]);
 
    return (
       <section className='main-container purchases'>

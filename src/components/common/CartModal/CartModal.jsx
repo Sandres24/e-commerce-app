@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartThunk } from '../../../redux/actions';
-import { getUserAuth, makePurchases } from '../../../services';
+import { makePurchasesThunk } from '../../../redux/actions';
 import './CartModal.css';
 import CartModalInfo from './CartModalInfo';
 
@@ -18,8 +17,7 @@ const CartModal = ({ isCartModalOpen, setIsCartModalOpen }) => {
 
    const handleMakePurchases = async () => {
       try {
-         await makePurchases({}, getUserAuth());
-         dispatch(setCartThunk());
+         dispatch(makePurchasesThunk());
          setIsCartModalOpen(!isCartModalOpen);
       } catch (error) {
          console.error(error.response);

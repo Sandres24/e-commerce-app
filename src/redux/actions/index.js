@@ -8,6 +8,7 @@ import {
    addProductsToCart,
    deleteProductsFromCart,
    getPurchasesHistory,
+   makePurchases,
 } from '../../services';
 
 export const actions = {
@@ -160,6 +161,21 @@ export const setPurchasesHistoryThunk = () => {
          dispatch(isLoading(true));
          const purchasesHistory = await getPurchasesHistory(getUserAuth());
          dispatch(setPurchases(purchasesHistory));
+      } catch (error) {
+         console.error(error);
+      } finally {
+         dispatch(isLoading(false));
+      }
+   };
+};
+
+export const makePurchasesThunk = () => {
+   return async (dispatch) => {
+      try {
+         dispatch(isLoading(true));
+         await makePurchases({}, getUserAuth());
+         dispatch(setCartThunk());
+         dispatch(setPurchasesHistoryThunk());
       } catch (error) {
          console.error(error);
       } finally {
