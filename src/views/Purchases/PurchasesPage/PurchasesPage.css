@@ -2,6 +2,21 @@
    margin-bottom: 30px;
 }
 
+.purchases-empty {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.purchases-empty img {
+   width: 150px;
+}
+
+.purchases-empty p {
+   font-size: 1.25rem;
+}
+
 .purchases .purchase-item {
    border: 1px solid var(--light-gray);
    border-radius: 10px;

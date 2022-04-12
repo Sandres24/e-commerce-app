@@ -6,7 +6,7 @@ const Purchase = ({ purchasedProducts }) => {
    return (
       <div className='purchase-item'>
          <div className='header'>
-            <b>{moment(purchasedProducts.createdAt).format('LL')}</b>
+            <b>{moment(purchasedProducts.createdAt).format('LLL')}</b>
          </div>
          <ul className='purchase-products-list'>
             {purchasedProducts.cart.products.map((purchasedProduct) => (

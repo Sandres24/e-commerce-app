@@ -3,9 +3,11 @@ import {
    getProducts,
    getFilteredProducts,
    getUser,
+   createUser,
    getUserAuth,
    getCart,
    addProductsToCart,
+   editProductsFromCart,
    deleteProductsFromCart,
    getPurchasesHistory,
    makePurchases,
@@ -15,6 +17,7 @@ export const actions = {
    isUserModalOpen: 'IS_USER_MODAL_OPEN',
    isLoading: 'IS_LOADING',
    setUser: 'SET_USER',
+   createUser: 'CREATE_USER',
    setProducts: 'SET_PRODUCTS',
    setCategories: 'SET_CATEGORIES',
    setProductsByCategory: 'SET_PRODUCTS_BY_CATEGORY',
@@ -66,7 +69,27 @@ export const setUserThunk = (credentials) => {
          dispatch(setCartThunk());
          dispatch(setIsUserModalOpen(false));
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
+         return Promise.reject(error.response.data.message);
+      } finally {
+         dispatch(isLoading(false));
+      }
+   };
+};
+
+export const createuserThunk = (userData) => {
+   return async (dispatch) => {
+      try {
+         dispatch(isLoading(true));
+         await createUser(userData);
+         const credentials = {
+            email: userData.email,
+            password: userData.password,
+         };
+         dispatch(setUserThunk(credentials));
+      } catch (error) {
+         console.error(error.response.data.message);
+         return Promise.reject(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -81,7 +104,21 @@ export const setCartThunk = () => {
          dispatch(setCart(userCart));
       } catch (error) {
          dispatch(setCart([]));
-         console.error(error.response);
+         console.error(error.response.data.message);
+      } finally {
+         dispatch(isLoading(false));
+      }
+   };
+};
+
+export const editCartThunk = (editedProduct) => {
+   return async (dispatch) => {
+      try {
+         dispatch(isLoading(true));
+         await editProductsFromCart(editedProduct, getUserAuth());
+         dispatch(setCartThunk());
+      } catch (error) {
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -95,7 +132,7 @@ export const addProductsToCartThunk = (product) => {
          await addProductsToCart(product, getUserAuth());
          dispatch(setCartThunk());
       } catch (error) {
-         console.error(error.response);
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -109,7 +146,8 @@ export const deleteProductsFromCartThunk = (productId) => {
          await deleteProductsFromCart(productId, getUserAuth());
          dispatch(setCartThunk());
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
+         return Promise.reject(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -123,7 +161,7 @@ export const setProductsThunk = () => {
          const products = await getProducts();
          dispatch(setProducts(products));
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -136,19 +174,19 @@ export const setCategoriesThunk = () => {
          const categories = await getCategories();
          dispatch(setCategories(categories));
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
       }
    };
 };
 
-export const setFilteredProductsThunk = (categoryId) => {
+export const setFilteredProductsThunk = (filters) => {
    return async (dispatch) => {
       try {
          dispatch(isLoading(true));
-         const productsByCategory = await getFilteredProducts(categoryId);
-         dispatch(setProducts(productsByCategory));
+         const filteredProducts = await getFilteredProducts(filters);
+         dispatch(setProducts(filteredProducts));
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -162,7 +200,7 @@ export const setPurchasesHistoryThunk = () => {
          const purchasesHistory = await getPurchasesHistory(getUserAuth());
          dispatch(setPurchases(purchasesHistory));
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }
@@ -177,7 +215,7 @@ export const makePurchasesThunk = () => {
          dispatch(setCartThunk());
          dispatch(setPurchasesHistoryThunk());
       } catch (error) {
-         console.error(error);
+         console.error(error.response.data.message);
       } finally {
          dispatch(isLoading(false));
       }

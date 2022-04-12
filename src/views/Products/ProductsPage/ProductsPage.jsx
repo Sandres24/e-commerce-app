@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCategoriesThunk } from '../../../redux/actions';
 import FiltersSection from '../FiltersSection/FiltersSection';
 import ProductCard from '../ProductCard/ProductCard';
+import ProductsEmpty from '../ProductsEmpty/ProductsEmpty';
 import ProductsSearchbar from '../ProductsSearchbar/ProductsSearchbar';
 import './ProductsPage.css';
 
@@ -25,15 +26,16 @@ const ProductsPage = () => {
          </aside>
          <section className='main-container'>
             <ProductsSearchbar />
-            <ul className='products-list'>
-               {products.length === 0 && !loading && 'No products found'}
-               {products.length > 0 &&
-                  products.map((product) => (
+            {products.length === 0 && !loading && <ProductsEmpty />}
+            {products.length > 0 && (
+               <ul className='products-list'>
+                  {products.map((product) => (
                      <li key={product.id}>
                         <ProductCard product={product} userCart={userCart} />
                      </li>
                   ))}
-            </ul>
+               </ul>
+            )}
          </section>
       </div>
    );

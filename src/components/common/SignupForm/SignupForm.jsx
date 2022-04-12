@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SignupForm.css';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useDispatch } from 'react-redux';
+import { createuserThunk } from '../../../redux/actions';
+import { signupValidation } from '../../../utils';
 
-const SignupForm = ({ handleSwitchForm }) => {
+const SignupForm = ({ handleSwitchForm, handleToastDisplaying }) => {
+   const dispatch = useDispatch();
+   const [signupError, setSignupError] = useState(null);
+
    return (
       <Formik
-         initialValues={{ email: '', password: '' }}
-         validate={(values) => {}}
+         initialValues={{
+            email: '',
+            firstName: '',
+            lastName: '',
+            password: '',
+            confirmPassword: '',
+            phone: '',
+         }}
+         validate={(values) =>
+            signupValidation(values, { signupError, setSignupError })
+         }
          onSubmit={(values) => {
-            console.log(values);
+            dispatch(createuserThunk(values))
+               .then(() => {
+                  handleToastDisplaying(800);
+                  handleSwitchForm();
+               })
+               .catch((error) => setSignupError(error));
          }}
       >
-         {() => (
+         {({ errors }) => (
             <>
                <Form className='SignupForm'>
-                  <div className='input-container'>
+                  <div
+                     className={
+                        signupError
+                           ? 'input-container error'
+                           : 'input-container'
+                     }
+                  >
                      <label htmlFor='email-signup'>Email</label>
                      <Field
                         type='text'
@@ -22,23 +48,47 @@ const SignupForm = ({ handleSwitchForm }) => {
                         id='email-signup'
                         autoComplete='off'
                      />
+                     <ErrorMessage
+                        name='email'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.email}
+                           </small>
+                        )}
+                     />
                   </div>
                   <div className='input-container'>
                      <label htmlFor='firstname'>First Name</label>
                      <Field
                         type='text'
-                        name='firstname'
+                        name='firstName'
                         id='firstname'
                         autoComplete='off'
+                     />
+                     <ErrorMessage
+                        name='firstName'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.firstName}
+                           </small>
+                        )}
                      />
                   </div>
                   <div className='input-container'>
                      <label htmlFor='lastname'>Last Name</label>
                      <Field
                         type='text'
-                        name='lastname'
+                        name='lastName'
                         id='lastname'
                         autoComplete='off'
+                     />
+                     <ErrorMessage
+                        name='lastName'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.lastName}
+                           </small>
+                        )}
                      />
                   </div>
                   <div className='input-container'>
@@ -49,14 +99,30 @@ const SignupForm = ({ handleSwitchForm }) => {
                         id='password-signup'
                         autoComplete='off'
                      />
+                     <ErrorMessage
+                        name='password'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.password}
+                           </small>
+                        )}
+                     />
                   </div>
                   <div className='input-container'>
                      <label htmlFor='confirmpassword'>Confirm Password</label>
                      <Field
                         type='password'
-                        name='confirmpassword'
+                        name='confirmPassword'
                         id='confirmpassword'
                         autoComplete='off'
+                     />
+                     <ErrorMessage
+                        name='confirmPassword'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.confirmPassword}
+                           </small>
+                        )}
                      />
                   </div>
                   <div className='input-container'>
@@ -67,7 +133,18 @@ const SignupForm = ({ handleSwitchForm }) => {
                         id='phone'
                         autoComplete='off'
                      />
+                     <ErrorMessage
+                        name='phone'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.phone}
+                           </small>
+                        )}
+                     />
                   </div>
+                  {signupError && (
+                     <div className='signup-error-message'>{signupError}</div>
+                  )}
                   <button className='submit-signup-btn' type='submit'>
                      Sign up
                   </button>

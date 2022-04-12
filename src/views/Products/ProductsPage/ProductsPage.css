@@ -90,6 +90,24 @@
    flex-wrap: wrap;
 }
 
+.products-empty {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.products-empty img {
+   width: 150px;
+   margin-bottom: 1rem;
+}
+
+.products-empty p {
+   font-size: 1.25rem;
+}
+
 .products-list li {
    padding: 20px 10px;
    width: 100%;

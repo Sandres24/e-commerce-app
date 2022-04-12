@@ -11,6 +11,10 @@
     border-radius: 3px;
 }
 
+.input-container.error input {
+    box-shadow: 0 0 1px 1px var(--primary);
+}
+
 .submit-signup-btn {
     background: var(--primary);
     width: 100%;
