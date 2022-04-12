@@ -33,6 +33,11 @@
     border-radius: 3px;
 }
 
+.input-container .input-error-message {
+    color: var(--primary);
+    font-weight: bold;
+}
+
 .submit-login-btn {
     background: var(--primary);
     width: 100%;

@@ -1,34 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LoginForm.css';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { setUserThunk } from '../../../redux/actions';
 
-const LoginForm = ({ handleSwitchForm }) => {
+const LoginForm = ({ handleSwitchForm, handleToastDisplaying }) => {
    const dispatch = useDispatch();
+   const [loginError, setLoginError] = useState(null);
 
-   const handleLoginValidation = (values) => {};
+   const handleValidateLogin = (values) => {
+      let errors = {};
 
+      if (loginError) setLoginError(null);
+
+      if (!values.email && !values.password) setLoginError(null);
+      if (!values.email.trim()) errors.email = 'Field required.';
+      if (!/^[a-zA-Z0-9._+-]+@[a-z]+\.[a-z]+$/.test(values.email.trim()))
+         errors.email = 'Invalid Email.';
+      if (!values.password.trim()) errors.password = 'Field required.';
+
+      return errors;
+   };
    const handleLoginSubmit = (values) => {
-      dispatch(setUserThunk(values));
+      dispatch(setUserThunk(values))
+         .then(() => handleToastDisplaying(250))
+         .catch((error) => setLoginError(error));
    };
 
    return (
       <Formik
          initialValues={{ email: '', password: '' }}
-         validate={handleLoginValidation}
+         validate={handleValidateLogin}
          onSubmit={handleLoginSubmit}
       >
-         {() => (
+         {({ errors }) => (
             <>
                <Form className='LoginForm'>
                   <div className='test-data'>
                      <strong>Test data</strong>
                      <div className='field'>
-                        <i className='fa fa-envelope'></i>user@gmail.com
+                        <i className='fa fa-envelope'></i>alexander@gmail.com
                      </div>
                      <div className='field'>
-                        <i className='fa fa-key'></i>user12345
+                        <i className='fa fa-key'></i>alexander12345
                      </div>
                   </div>
                   <div className='input-container'>
@@ -39,6 +53,14 @@ const LoginForm = ({ handleSwitchForm }) => {
                         id='email-login'
                         autoComplete='off'
                      />
+                     <ErrorMessage
+                        name='email'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.email}
+                           </small>
+                        )}
+                     />
                   </div>
                   <div className='input-container'>
                      <label htmlFor='password-login'>Password</label>
@@ -48,9 +70,19 @@ const LoginForm = ({ handleSwitchForm }) => {
                         id='password-login'
                         autoComplete='off'
                      />
+                     <ErrorMessage
+                        name='password'
+                        component={() => (
+                           <small className='input-error-message'>
+                              {errors.password}
+                           </small>
+                        )}
+                     />
                   </div>
                   <div className='input-container'></div>
-                  <div className='login-error-message'>Invalid credentials</div>
+                  {loginError && (
+                     <div className='login-error-message'>{loginError}</div>
+                  )}
                   <button className='submit-login-btn' type='submit'>
                      Login
                   </button>

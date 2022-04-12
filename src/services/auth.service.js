@@ -27,8 +27,28 @@ export const getUser = async (credentials) => {
 
       return userInfo;
    } catch (error) {
-      console.error(error.response.data.message);
-      return Promise.reject(error.response);
+      return Promise.reject(error);
+   }
+};
+
+export const createUser = async (userData) => {
+   try {
+      const controller = new AbortController();
+      const signal = controller.signal;
+
+      const { email, firstName, lastName, password, phone } = userData;
+
+      await axios.post(
+         endpoints.signupUrl,
+         { email, firstName, lastName, password, phone },
+         { signal }
+      );
+
+      setTimeout(() => {
+         controller.abort();
+      }, 4000);
+   } catch (error) {
+      return Promise.reject(error);
    }
 };
 

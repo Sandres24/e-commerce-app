@@ -14,7 +14,7 @@ export const getProducts = async () => {
 
       return data.data.products;
    } catch (error) {
-      return Promise.reject(error.response);
+      return Promise.reject(error);
    }
 };
 
@@ -32,12 +32,12 @@ export const getFilteredProducts = async (filters) => {
       if (filters.priceTo) {
          filteredProducts = filteredProducts.filter(
             (product) =>
-               product.price > (filters.priceFrom || 0) &&
-               product.price < filters.priceTo
+               product.price >= filters.priceFrom &&
+               product.price <= filters.priceTo
          );
       } else {
          filteredProducts = filteredProducts.filter(
-            (product) => product.price > (filters.priceFrom || 0)
+            (product) => product.price >= filters.priceFrom
          );
       }
 

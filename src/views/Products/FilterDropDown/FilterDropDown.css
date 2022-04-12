@@ -42,6 +42,7 @@
    padding-left: 10px;
 }
 
+
 .filters .price-filter label span {
    width: 20%;
 }
@@ -55,6 +56,17 @@
    font-size: 1rem;
 }
 
+.filters .price-filter .input-error-message {
+   color: var(--primary);
+   font-weight: bold;
+   margin-top: -17px;
+   display: block;
+}
+
+.filters .price-filter .buttons-section {
+   display: flex;
+}
+
 .filters .price-filter button {
    background: var(--primary);
    padding: 8px 15px;
@@ -62,6 +74,14 @@
    border-radius: 5px;
    display: block;
    margin: 25px 0 20px auto;
+}
+
+.filters .price-filter button.clear-price-filter {
+   background: var(--text-gray);
+}
+
+.filters .price-filter button:disabled {
+   cursor: default;
 }
 
 .filters .category-filter {

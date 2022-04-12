@@ -8,18 +8,29 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsUserModalOpen } from '../../../redux/actions';
 import CartModal from '../CartModal/CartModal';
+import Toast from '../Toast/Toast';
 
 const Navbar = () => {
    const navigate = useNavigate();
-
    const dispatch = useDispatch();
    const isUserModalOpen = useSelector((state) => state.app.isUserModalOpen);
+   const [isToastDisplaying, setIsToastDisplaying] = useState(false);
    const [isCartModalOpen, setIsCartModalOpen] = useState(false);
    const [switchForm, setSwitchForm] = useState(true);
    const loggedUser = useSelector((state) => state.app.loggedUser);
 
+   if (isToastDisplaying)
+      setTimeout(() => {
+         setIsToastDisplaying(!isToastDisplaying);
+      }, 3000);
+
    const handleUserModalOpen = () =>
       dispatch(setIsUserModalOpen(!isUserModalOpen));
+   const handleToastDisplaying = (timer) => {
+      setTimeout(() => {
+         setIsToastDisplaying(!isToastDisplaying);
+      }, timer);
+   };
    const handleCartModalOpen = () => {
       if (loggedUser) {
          setIsCartModalOpen(!isCartModalOpen);
@@ -68,12 +79,15 @@ const Navbar = () => {
                />
                <UserModal isUserModalOpen={isUserModalOpen}>
                   {switchForm && !loggedUser && (
-                     <LoginForm handleSwitchForm={handleSwitchForm} />
+                     <LoginForm
+                        handleSwitchForm={handleSwitchForm}
+                        handleToastDisplaying={handleToastDisplaying}
+                     />
                   )}
                   {!switchForm && !loggedUser && (
                      <SignupForm
                         handleSwitchForm={handleSwitchForm}
-                        handleUserModalOpen={handleUserModalOpen}
+                        handleToastDisplaying={handleToastDisplaying}
                      />
                   )}
                   {loggedUser && (
@@ -91,6 +105,11 @@ const Navbar = () => {
                )}
             </nav>
          </div>
+         <Toast
+            isToastDisplaying={isToastDisplaying}
+            background='#2fa8f8'
+            message={`Wellcome ${loggedUser?.firstName} ${loggedUser?.lastName}!`}
+         />
       </div>
    );
 };

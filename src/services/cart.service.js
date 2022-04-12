@@ -37,6 +37,23 @@ export const addProductsToCart = async (product, config) => {
    }
 };
 
+export const editProductsFromCart = async (editedProduct, config) => {
+   try {
+      const controller = new AbortController();
+      const signal = controller.signal;
+
+      config.signal = signal;
+
+      await axios.patch(endpoints.cartUrl, editedProduct, config);
+
+      setTimeout(() => {
+         controller.abort();
+      }, 4000);
+   } catch (error) {
+      return Promise.reject(error);
+   }
+};
+
 export const deleteProductsFromCart = async (productId, config) => {
    try {
       const controller = new AbortController();

@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { History } from '../../../components';
 import { setPurchasesHistoryThunk } from '../../../redux/actions';
 import Purchase from '../Purchase/Purchase';
+import PurchasesEmpty from '../PurchasesEmpty/PurchasesEmpty';
 import './PurchasesPage.css';
 
 const PurchasesPage = () => {
    const dispatch = useDispatch();
-   /* const userCart = useSelector((state) => state.cart); */
    const purchasesHistory = useSelector((state) => state.purchases);
 
    useEffect(() => {
@@ -18,9 +18,16 @@ const PurchasesPage = () => {
       <section className='main-container purchases'>
          <History title='purchases' />
          <h1>My purchases</h1>
-         {purchasesHistory.map((purchase) => (
-            <Purchase key={purchase.createdAt} purchasedProducts={purchase} />
-         ))}
+         {purchasesHistory.length === 0 ? (
+            <PurchasesEmpty />
+         ) : (
+            purchasesHistory.map((purchase) => (
+               <Purchase
+                  key={purchase.createdAt}
+                  purchasedProducts={purchase}
+               />
+            ))
+         )}
       </section>
    );
 };
