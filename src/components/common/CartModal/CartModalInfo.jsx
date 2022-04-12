@@ -54,7 +54,7 @@ const CartModalInfo = ({ cartProduct }) => {
 
    useEffect(() => {
       setCounter(cartProduct.productsInCart.quantity);
-   }, [isEditQuantity]);
+   }, [isEditQuantity, setCounter, cartProduct.productsInCart.quantity]);
 
    return (
       <>
