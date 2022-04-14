@@ -14,7 +14,7 @@ export const getPurchasesHistory = async (config) => {
          controller.abort();
       }, 4000);
 
-      return data.data.purchases;
+      return data.data.purchases.reverse();
    } catch (error) {
       return Promise.error(error);
    }

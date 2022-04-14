@@ -20,7 +20,7 @@
 .search-box .input input {
    flex: 1;
    border: 1px solid var(--light-gray);
-   padding: 5px 14px;
+   padding: 5px 25px 5px 14px;
    font-size: 0.9rem;
 }
 

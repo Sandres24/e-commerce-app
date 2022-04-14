@@ -22,6 +22,7 @@ const CartModal = ({ isCartModalOpen, setIsCartModalOpen }) => {
       dispatch(makePurchasesThunk());
       setIsCartModalOpen(!isCartModalOpen);
       navigate('/purchases');
+      window.scrollTo(0, 0);
    };
 
    return (

@@ -29,7 +29,7 @@ const PriceFilter = ({ handleChangeFilters }) => {
             <Form className='price-filter'>
                <label htmlFor='priceFrom'>
                   <span>From</span>
-                  <Field type='number' name='priceFrom' />
+                  <Field type='number' name='priceFrom' min='0' />
                </label>
                <ErrorMessage
                   name='priceFrom'
@@ -41,7 +41,7 @@ const PriceFilter = ({ handleChangeFilters }) => {
                />
                <label htmlFor='priceTo'>
                   <span>To</span>
-                  <Field type='number' name='priceTo' />
+                  <Field type='number' name='priceTo' min='0' />
                </label>
                <ErrorMessage
                   name='priceTo'

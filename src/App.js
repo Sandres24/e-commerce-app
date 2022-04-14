@@ -6,6 +6,7 @@ import { getUserFromLocalStorage } from './services';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartThunk, setUser } from './redux/actions';
 import { ProductPage, ProductsPage, PurchasesPage } from './views';
+import NotFound from './views/NotFound/NotFound';
 
 function App() {
    const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
                <Route element={<ProtectedRoutes />}>
                   <Route path='/purchases' element={<PurchasesPage />} />
                </Route>
+               <Route path='*' element={<NotFound />} />
             </Route>
          </Routes>
          {isLoading && <Loader />}

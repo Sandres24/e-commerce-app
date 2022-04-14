@@ -23,12 +23,21 @@ export const getFilteredProducts = async (filters) => {
       const controller = new AbortController();
       const signal = controller.signal;
 
-      const { data } = await axios.get(
-         endpoints.productsUrl + '?category=' + filters.categoryId,
-         { signal }
-      );
+      let response;
 
-      let filteredProducts = data.data.products;
+      if (!filters.searchByName)
+         response = await axios.get(
+            endpoints.productsUrl + '?category=' + filters.categoryId,
+            { signal }
+         );
+
+      if (filters.searchByName)
+         response = await axios.get(
+            endpoints.productsUrl + '?query=' + filters.searchByName,
+            { signal }
+         );
+
+      let filteredProducts = response.data.data.products;
       if (filters.priceTo) {
          filteredProducts = filteredProducts.filter(
             (product) =>
