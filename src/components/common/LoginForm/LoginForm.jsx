@@ -39,10 +39,10 @@ const LoginForm = ({ handleSwitchForm, handleToastDisplaying }) => {
                   <div className='test-data'>
                      <strong>Test data</strong>
                      <div className='field'>
-                        <i className='fa fa-envelope'></i>alexander@gmail.com
+                        <i className='fa fa-envelope'></i>riaan@gmail.com
                      </div>
                      <div className='field'>
-                        <i className='fa fa-key'></i>alexander12345
+                        <i className='fa fa-key'></i>rian12345
                      </div>
                   </div>
                   <div className='input-container'>

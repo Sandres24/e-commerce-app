@@ -7,7 +7,7 @@ const Counter = ({
 }) => {
    return (
       <div className='flex'>
-         <button onClick={handleCounterDecrement} disabled={counter <= 0}>
+         <button onClick={handleCounterDecrement} disabled={counter <= 1}>
             <i className='fa fa-minus'></i>
          </button>
          <div className='value'>{counter}</div>

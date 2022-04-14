@@ -56,6 +56,18 @@
    font-size: 1rem;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
 .filters .price-filter .input-error-message {
    color: var(--primary);
    font-weight: bold;
@@ -73,7 +85,7 @@
    color: #fff;
    border-radius: 5px;
    display: block;
-   margin: 25px 0 20px auto;
+   margin: 8px 0 20px auto;
 }
 
 .filters .price-filter button.clear-price-filter {

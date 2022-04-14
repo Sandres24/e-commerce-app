@@ -32,7 +32,7 @@ const ProductInfo = ({ product, userCart }) => {
    };
 
    useEffect(() => {
-      setCounter(0);
+      setCounter(1);
    }, [product, setCounter]);
 
    return (
