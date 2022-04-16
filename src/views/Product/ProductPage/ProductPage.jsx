@@ -15,8 +15,8 @@ const ProductPage = () => {
    const productFound = products.find((product) => product.id === Number(id));
 
    useEffect(() => {
-      if (products.length === 0) dispatch(setProductsThunk());
-   }, [dispatch, products.length]);
+      dispatch(setProductsThunk());
+   }, [dispatch]);
 
    useEffect(() => {
       window.scrollTo(0, 0);
